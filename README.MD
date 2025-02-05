@@ -48,7 +48,9 @@ Explicação sobre a comunicação frontend-backend:
 
 A comunicação entre o frontend (Three.js) e o backend (JSON Server) é feita por meio de requisições HTTP utilizando a API Fetch. O frontend envia e recupera dados do backend para garantir que as configurações do cubo sejam persistidas e recuperadas corretamente.
 
+
 Carregamento Inicial das Configurações: Exemplo de requisição GET
+
 async function loadCubeSettings() {
     try {
         const response = await fetch(API_URL);
@@ -74,6 +76,7 @@ Os valores são aplicados ao cubo e ao ambiente na cena 3D. )
 
 
 Salvando Configurações Automaticamente: Exemplo de PATCH
+
 async function saveCubeSettings() {
     try {
         await fetch(API_URL, {
@@ -91,6 +94,7 @@ Sempre que o usuário altera um valor no GUI, o saveCubeSettings() é chamado au
 
 
 Resetando as Configurações: Adicionando botão de reset no GUI
+
 gui.add({ Resetar: () => resetCubeSettings() }, 'Resetar');
 
 async function resetCubeSettings() {
