@@ -1,0 +1,13 @@
+{
+  "config": [
+    {
+      "id": "1",
+      "Cor_Cubo": "#00FF00",
+      "Cor_Fundo": "#FFFFFF",
+      "Luz_Ambiente": 100,
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ]
+}
