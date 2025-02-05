@@ -3,6 +3,8 @@ Onde fica o Codigo HTML/JAVASCRIPT?{
    o Index.html vai esta lá, e na pasta js vai está o scripts.js
 }
 
+---------------------------------------------------------------------------------------------
+
 COMO RODAR A APLICAÇÃO:
 
 1º - Abrir o terminal do VsCode e digitar o comando -> json-server --watch db.json --port 3000 (Para abrir o servidor do Bando de Dados);
@@ -47,17 +49,19 @@ Explicação sobre a comunicação frontend-backend:
 A comunicação entre o frontend (Three.js) e o backend (JSON Server) é feita por meio de requisições HTTP utilizando a API Fetch. O frontend envia e recupera dados do backend para garantir que as configurações do cubo sejam persistidas e recuperadas corretamente.
 
 Carregamento Inicial das Configurações: Exemplo de requisição GET
-
 async function loadCubeSettings() {
     try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error("Erro ao carregar configurações.");
         const data = await response.json();
+
         Object.assign(cubeSettings, data);
+
         cubo.material.color.set(cubeSettings.Cor_Cubo);
         cena.background = new THREE.Color(cubeSettings.Cor_Fundo);
         ambiente.intensity = cubeSettings.Luz_Ambiente;
         cubo.position.set(cubeSettings.x, cubeSettings.y, cubeSettings.z);
+
         gui.updateDisplay();
     } catch (error) {
         console.error("Erro ao carregar configurações:", error);
@@ -70,7 +74,6 @@ Os valores são aplicados ao cubo e ao ambiente na cena 3D. )
 
 
 Salvando Configurações Automaticamente: Exemplo de PATCH
-
 async function saveCubeSettings() {
     try {
         await fetch(API_URL, {
@@ -88,8 +91,8 @@ Sempre que o usuário altera um valor no GUI, o saveCubeSettings() é chamado au
 
 
 Resetando as Configurações: Adicionando botão de reset no GUI
-
 gui.add({ Resetar: () => resetCubeSettings() }, 'Resetar');
+
 async function resetCubeSettings() {
     const defaultConfig = {
         Cor_Cubo: "#00FF00",
@@ -99,11 +102,14 @@ async function resetCubeSettings() {
         y: 0,
         z: 0
     };
+
     Object.assign(cubeSettings, defaultConfig);
+
     cubo.material.color.set(cubeSettings.Cor_Cubo);
     cena.background = new THREE.Color(cubeSettings.Cor_Fundo);
     ambiente.intensity = cubeSettings.Luz_Ambiente;
     cubo.position.set(cubeSettings.x, cubeSettings.y, cubeSettings.z);
+
     await saveCubeSettings();
     gui.updateDisplay();
 }
