@@ -1,3 +1,8 @@
+Onde fica o Codigo HTML/JAVASCRIPT?{
+   Entre na pasta Codigos, depois entre na pasta Codigo.
+   o Index.html vai esta lá, e na pasta js vai está o scripts.js
+}
+
 COMO RODAR A APLICAÇÃO:
 
 1º - Abrir o terminal do VsCode e digitar o comando -> json-server --watch db.json --port 3000 (Para abrir o servidor do Bando de Dados);
