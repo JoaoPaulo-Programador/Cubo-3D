@@ -1,56 +1,87 @@
-Onde fica o Codigo HTML/JAVASCRIPT?{
-   Entre na pasta Codigos, depois entre na pasta Codigo.
-   o Index.html vai esta lá, e na pasta js vai está o scripts.js
-}
+Onde fica o Código HTML/JavaScript?
+Caminho do código:
 
----------------------------------------------------------------------------------------------
+Entre na pasta Codigos, depois entre na pasta Codigo.
 
-COMO RODAR A APLICAÇÃO:
+O arquivo index.html estará lá, e na pasta js estará o arquivo scripts.js.
 
-1º - Abrir o terminal do VsCode e digitar o comando -> json-server --watch db.json --port 3000 (Para abrir o servidor do Bando de Dados);
-2º - Em outro terminal digitar o comando -> parcel ./Codigos/codigo/index.html (Para abrir a porta local do servidor);
-3º - Entrar no porta que o parcel disponibilizar
+Como Rodar a Aplicação
+Iniciar o servidor de backend (JSON Server):
 
----------------------------------------------------------------------------------------------
+Abra o terminal do VSCode e execute o comando:
 
-Estrutura do projeto:
+bash
+Copiar
+json-server --watch db.json --port 3000
+Isso irá iniciar o servidor do banco de dados na porta 3000.
 
-Bibliotecas. Sendo elas:{
-    *Three - Biblioteca para carregar objetos 3d;
-    *Dat.Gui - Biblioteca para acessar uma inteface interativa;
-    *OrbitControls - Biblioteca para conseguir controlar com o mouse o objeto 3d;
-    *Parcel - Conseguir carregar o Localhost;
-    *Json Server - Conseguir atualizar o banco de dados;
-}
+Iniciar o servidor frontend:
 
-Descrição dos Arquivos:{
-    FRONTEND:{
-        index.html -> Estrutura básica da página, onde Three.js renderiza a cena.
-        scripts.js -> Código principal que inicializa Three.js, dat.GUI e interage com a API.
-    }
-    BACKEND:{
-        db.json -> Contém os dados das configurações salvas.
-    }
-    Outros Arquivos:{
-        Packege.json -> Define as dependências (three, dat.gui, json-server) e scripts para rodar o projeto.
-    }
-}
+Em outro terminal, execute o comando:
 
-Rodando o Projeto:{
-    Instalar Dependências: npm install three dat.gui json-server
-    Iniciar o BACKEND (JSON SERVER): json-server --watch db.json --port 3000
-    Iniciar o FRONTEND (SERVER LOCAL): parcel ./Codigos/codigo/index.html
-}
+bash
+Copiar
+parcel ./Codigos/codigo/index.html
+Isso irá iniciar a aplicação na sua máquina local.
 
----------------------------------------------------------------------------------------------
+Acessar a aplicação:
 
-Explicação sobre a comunicação frontend-backend: 
+Abra o navegador e entre na porta fornecida pelo Parcel para acessar a aplicação.
 
-A comunicação entre o frontend (Three.js) e o backend (JSON Server) é feita por meio de requisições HTTP utilizando a API Fetch. O frontend envia e recupera dados do backend para garantir que as configurações do cubo sejam persistidas e recuperadas corretamente.
+Estrutura do Projeto
+Bibliotecas Utilizadas
+Three.js: Biblioteca para carregar e renderizar objetos 3D.
 
+Dat.GUI: Biblioteca para criar uma interface interativa para controlar parâmetros da cena.
 
-Carregamento Inicial das Configurações: Exemplo de requisição GET
+OrbitControls: Biblioteca para controlar o objeto 3D com o mouse.
 
+Parcel: Ferramenta para carregar a aplicação no servidor local.
+
+JSON Server: Simula um banco de dados para persistir as configurações da cena.
+
+Descrição dos Arquivos
+Frontend:
+
+index.html: Estrutura básica da página, onde a cena 3D é renderizada pelo Three.js.
+
+scripts.js: Código principal que inicializa o Three.js, dat.GUI e interage com a API do backend.
+
+Backend:
+
+db.json: Contém os dados das configurações salvas.
+
+Outros Arquivos:
+
+package.json: Define as dependências (Three.js, dat.GUI, json-server) e scripts para rodar o projeto.
+
+Rodando o Projeto
+1. Instalar Dependências
+Execute o comando abaixo para instalar as dependências do projeto:
+
+bash
+Copiar
+npm install three dat.gui json-server
+2. Iniciar o Backend (JSON Server)
+Inicie o backend para fornecer as configurações e dados persistidos:
+
+bash
+Copiar
+json-server --watch db.json --port 3000
+3. Iniciar o Frontend (Servidor Local)
+Inicie o servidor local para rodar a aplicação:
+
+bash
+Copiar
+parcel ./Codigos/codigo/index.html
+Explicação sobre a Comunicação Frontend-Backend
+A comunicação entre o frontend (Three.js) e o backend (JSON Server) é feita por meio de requisições HTTP utilizando a API Fetch.
+
+Carregamento Inicial das Configurações
+Exemplo de requisição GET:
+
+javascript
+Copiar
 async function loadCubeSettings() {
     try {
         const response = await fetch(API_URL);
@@ -69,14 +100,13 @@ async function loadCubeSettings() {
         console.error("Erro ao carregar configurações:", error);
     }
 }
-( O fetch busca os dados do backend (db.json).
-Se houver erro na requisição, ele lança uma mensagem de erro.
-O objeto cubeSettings é atualizado com os valores do backend.
-Os valores são aplicados ao cubo e ao ambiente na cena 3D. )
+O que acontece: O frontend busca os dados de configuração do cubo no backend (arquivo db.json). Caso haja erro, é exibida uma mensagem de erro. Os dados são aplicados ao cubo e ao ambiente 3D, e a interface é atualizada.
 
+Salvando Configurações Automaticamente
+Exemplo de requisição PATCH:
 
-Salvando Configurações Automaticamente: Exemplo de PATCH
-
+javascript
+Copiar
 async function saveCubeSettings() {
     try {
         await fetch(API_URL, {
@@ -88,15 +118,13 @@ async function saveCubeSettings() {
         console.error("Erro ao salvar configurações:", error);
     }
 }
-( O método PATCH envia somente os valores modificados.
-O Content-Type: application/json indica que os dados estão em formato JSON.
-Sempre que o usuário altera um valor no GUI, o saveCubeSettings() é chamado automaticamente. )
+O que acontece: Sempre que o usuário altera alguma configuração, os dados são enviados automaticamente para o backend para persistir as mudanças.
 
+Resetando as Configurações
+Exemplo de código para resetar configurações e atualizar o backend:
 
-Resetando as Configurações: Adicionando botão de reset no GUI
-
-gui.add({ Resetar: () => resetCubeSettings() }, 'Resetar');
-
+javascript
+Copiar
 async function resetCubeSettings() {
     const defaultConfig = {
         Cor_Cubo: "#00FF00",
@@ -117,54 +145,42 @@ async function resetCubeSettings() {
     await saveCubeSettings();
     gui.updateDisplay();
 }
-( A função resetCubeSettings() redefine os valores para os padrões iniciais.
-Os valores são aplicados ao cubo e ao ambiente.
-O saveCubeSettings() salva as configurações no JSON Server.
-O gui.updateDisplay() garante que o GUI mostre os valores atualizados. )
+O que acontece: O usuário pode restaurar as configurações padrão. As mudanças são aplicadas no frontend e os dados são salvos novamente no backend.
 
-RESUMINDO {
-GET → O frontend solicita as configurações do cubo no backend ao iniciar.
-PATCH → Cada vez que o usuário muda uma configuração no GUI, o frontend atualiza os valores no backend.
-RESET → O usuário pode restaurar as configurações padrão, atualizando os valores tanto no frontend quanto no backend.  
+Resumo do Funcionamento
+GET: O frontend solicita as configurações do cubo ao backend quando a página é carregada.
 
-Isso garante que, mesmo que o usuário saia e volte, as configurações sejam mantidas.
-}
+PATCH: Sempre que o usuário altera uma configuração no GUI, o frontend atualiza os dados no backend.
 
----------------------------------------------------------------------------------------------
+RESET: O usuário pode restaurar as configurações padrão, o que é refletido tanto no frontend quanto no backend.
 
-Possíveis melhorias futuras:
+Essas interações garantem que as configurações sejam persistidas e possam ser recuperadas mesmo após o usuário sair e voltar à aplicação.
 
-Armazenamento em Banco de Dados Real (Não Apenas JSON Server){
-    O que: Substituir o JSON Server por um banco de dados real, como MySQL, MongoDB ou PostgreSQL.
-    Por que: O JSON Server é útil para protótipos, mas não é ideal para produção. Um banco de dados real oferece persistência de dados mais robusta e escalabilidade.
-}
+Possíveis Melhorias Futuras
+1. Armazenamento em Banco de Dados Real
+O que: Substituir o JSON Server por um banco de dados real, como MySQL, MongoDB ou PostgreSQL.
 
-Interface de Configuração Avançada{
-    O que: Adicionar mais controles e opções para o cubo e o ambiente (como animações de luz, câmeras personalizáveis, sombras, etc.).
-    Por que: Permite uma personalização ainda mais avançada da cena 3D e melhora a experiência do usuário.
-}
+Por que: O JSON Server é útil para protótipos, mas um banco de dados real oferece persistência de dados mais robusta e escalabilidade para produção.
 
-Backup e Restauração de Configurações{
-    O que: Adicionar uma funcionalidade para backup e restauração das configurações, permitindo que o usuário faça backup de seu trabalho e o restaure posteriormente.
-    Por que: Isso oferece segurança adicional, permitindo ao usuário restaurar as configurações anteriores caso algo dê errado.  
-}
+2. Interface de Configuração Avançada
+O que: Adicionar mais controles para personalização da cena 3D, como animações de luz, câmeras personalizáveis, sombras, etc.
 
----------------------------------------------------------------------------------------------
+Por que: Melhorar a experiência do usuário, permitindo configurações avançadas para a cena e o cubo.
 
-Decisões Adotadas no Projeto:
+3. Backup e Restauração de Configurações
+O que: Implementar uma funcionalidade para backup e restauração das configurações.
 
-Uso de Three.js para a Criação da Cena 3D{
-    Three.js é uma biblioteca poderosa e amplamente utilizada para criar gráficos 3D no navegador. Sua flexibilidade e integração com outras ferramentas (como OrbitControls e dat.GUI) facilitaram o desenvolvimento de uma cena interativa.
-}
+Por que: Oferecer maior segurança, permitindo ao usuário restaurar configurações anteriores caso algo dê errado.
 
-Uso de dat.GUI para Interface de Usuário{
-    dat.GUI é uma solução simples e eficiente para criar interfaces gráficas de controle de parâmetros em tempo real, o que se alinha com a necessidade de permitir ao usuário modificar as propriedades da cena e do cubo facilmente.
-}
+Decisões Adotadas no Projeto
+Uso de Three.js para a Criação da Cena 3D
+Three.js foi escolhido pela sua robustez e flexibilidade para criar gráficos 3D no navegador, permitindo integração fácil com outras bibliotecas como OrbitControls e dat.GUI.
 
-JSON Server como Backend Simples{
-    Para protótipos rápidos, JSON Server é uma ferramenta excelente, pois simula um banco de dados com mínimo esforço. Ele fornece endpoints RESTful para manipulação de dados em formato JSON, facilitando a persistência das configurações sem a necessidade de configurar um banco de dados real.
-}
+Uso de dat.GUI para Interface de Usuário
+dat.GUI é ideal para criar interfaces gráficas interativas e permite a modificação em tempo real dos parâmetros da cena e do cubo, proporcionando uma experiência intuitiva para o usuário.
 
-Atualização Automática das Configurações no Backend{
-    Decidi salvar as configurações automaticamente a cada modificação no GUI para garantir que o estado da aplicação seja sempre persistido sem a necessidade de um botão de "Salvar".
-}
+JSON Server como Backend Simples
+O JSON Server foi utilizado como uma solução rápida para persistência de dados. Ele simula um banco de dados e é uma excelente escolha para protótipos e testes, antes de implementar um banco de dados real.
+
+Atualização Automática das Configurações no Backend
+As configurações são salvas automaticamente sempre que há alterações na interface, garantindo que o estado da aplicação seja persistido sem a necessidade de um botão "Salvar".
